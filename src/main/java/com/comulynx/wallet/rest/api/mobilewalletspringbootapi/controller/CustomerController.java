@@ -66,19 +66,23 @@ public class CustomerController {
             // If password do not match throw an error "Invalid credentials"
             List<Customer> customers = customerRepository.findAll();
             for (Customer customer : customers) {
-                if (customer.getCustomerId().equals(customerId) && customer.getPin().equals(customerPIN)) {
-                    customerRepository.save(customer);
+                if (customer.getCustomerId().equals(customerId)) {
+                    if (customer.getPin().equals(customerPIN)) {
+                        customerRepository.save(customer);
 
-                    //TODO : Return a JSON object with the following after successful login
-                    //Customer Name, Customer ID, email and Customer Account
-                    response.addProperty("Customer Name", customer.getFirstName() + " " + customer.getLastName());
-                    response.addProperty("Customer ID", customer.getCustomerId());
-                    response.addProperty("email", customer.getEmail());
-                    response.addProperty("Customer Account", String.valueOf(accountRepository.findAccountByCustomerId(customerId)));
-                    return ResponseEntity.ok().body(gson.toJson(response));
+                        //TODO : Return a JSON object with the following after successful login
+                        //Customer Name, Customer ID, email and Customer Account
+                        response.addProperty("Customer Name", customer.getFirstName() + " " + customer.getLastName());
+                        response.addProperty("Customer ID", customer.getCustomerId());
+                        response.addProperty("email", customer.getEmail());
+                        response.addProperty("Customer Account", String.valueOf(accountRepository.findAccountByCustomerId(customer.getCustomerId())));
+                        return ResponseEntity.ok().body(gson.toJson(response));
+                    } else {
+                        return new ResponseEntity<>("INVALID CREDENTIALS", HttpStatus.FORBIDDEN);
+                    }
 
                 } else {
-                    return new ResponseEntity<>("Invalid Credentials", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Customer does not exist", HttpStatus.BAD_REQUEST);
                 }
             }
 
@@ -125,7 +129,7 @@ public class CustomerController {
             account.setBalance(0.0);
 
             if (!Objects.equals(email, customer.getEmail()) || !Objects.equals(account.getCustomerId(), customer.getCustomerId())) {
-//                accountRepository.save(account);
+                accountRepository.save(account);
                 return ResponseEntity.ok().body("");
             } else {
                 return new ResponseEntity<>("Email already taken", HttpStatus.BAD_REQUEST);

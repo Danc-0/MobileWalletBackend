@@ -42,10 +42,10 @@ public class AccountController {
 
             final JsonObject balanceRequest = gson.fromJson(request, JsonObject.class);
             String customerId = balanceRequest.get("customerId").getAsString();
-            String accountNo = balanceRequest.get("accountNo").getAsString();
+//            String accountNo = balanceRequest.get("accountNo").getAsString();
 
             // TODO : Add logic to find Account balance by CustomerId
-            Account account = accountRepository.findAccountByCustomerIdAndAccountNo(customerId, accountNo).orElse(null);
+            Account account = accountRepository.findAccountByCustomerId(customerId).orElse(null);
 
             response.addProperty("balance", account.getBalance());
             response.addProperty("accountNo", account.getAccountNo());
