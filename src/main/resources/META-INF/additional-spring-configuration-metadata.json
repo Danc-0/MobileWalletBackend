@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "DB_CLOSE_DELAY",
+      "type": "java.lang.String",
+      "description": "Description for DB_CLOSE_DELAY."
+    },
+    {
+      "name": "DATABASE_TO_UPPER",
+      "type": "java.lang.String",
+      "description": "Description for DATABASE_TO_UPPER."
+    },
+    {
+      "name": "DB_CLOSE_ON_EXIT",
+      "type": "java.lang.String",
+      "description": "Description for DB_CLOSE_ON_EXIT."
+    },
+    {
+      "name": "IGNORECASE",
+      "type": "java.lang.String",
+      "description": "Description for IGNORECASE."
+    }
+  ] }
